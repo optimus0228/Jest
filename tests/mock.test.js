@@ -30,12 +30,39 @@ describe("7. mock function jest test", () => {
 
     test("mock function members test", () => {
         const mockFunction = jest.fn(() => "jest");
-        mockFunction.name = "test"
 
         mockFunction("1 arg", "2 arg");
         expect(mockFunction.mock.calls.length).toBe(1);
         expect(mockFunction.mock.calls[0][0]).toBe("1 arg");
         expect(mockFunction.mock.calls[0][1]).toBe('2 arg');
-        expect(mockFunction.mock.results[0].value).toBe("jest")
+        expect(mockFunction.mock.results[0].value).toBe("jest");
+
+        const mockConstructor = jest.fn();
+        const mockInstance = new mockConstructor;
+        mockInstance.name = "test";
+        expect(mockConstructor.mock.instances.length).toBe(1);
+        expect(mockConstructor.mock.instances[0].name).toEqual("test");
+    })
+
+    test("mock function return value test", () => {
+        const myMock = jest.fn();
+        // console.log(myMock());
+
+        myMock
+            .mockReturnValue(true)
+            .mockReturnValueOnce(10)
+            .mockReturnValueOnce("X")
+        // console.log(myMock(), myMock(), myMock(), myMock());
+    })
+
+    test("mock function continuation-passing style test", () => {
+        const filterTestFn = jest.fn();
+        filterTestFn.mockReturnValueOnce(true).mockReturnValueOnce(false);
+        const results = [11, 12].filter(num => filterTestFn(num));
+
+        expect(filterTestFn.mock.calls.length).toBe(2);
+        expect(filterTestFn.mock.calls[0][0]).toBe(11);
+        expect(filterTestFn.mock.calls[1][0]).toBe(12);
+        console.log(filterTestFn.mock.calls);
     })
 })
