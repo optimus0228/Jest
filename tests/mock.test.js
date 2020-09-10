@@ -63,6 +63,34 @@ describe("7. mock function jest test", () => {
         expect(filterTestFn.mock.calls.length).toBe(2);
         expect(filterTestFn.mock.calls[0][0]).toBe(11);
         expect(filterTestFn.mock.calls[1][0]).toBe(12);
-        console.log(filterTestFn.mock.calls);
+        //console.log(filterTestFn.mock.calls);
+    })
+
+    test("mock custom matchers jest test", () => {
+        const mockFunc = jest.fn();
+
+        const arg1 = "arg1";
+        const arg2 = "arg2";
+
+        mockFunc(arg1, arg2);
+        expect(mockFunc).toBeCalled();
+        expect(mockFunc).toBeCalledWith(arg1, arg2);
+        expect(mockFunc).toHaveBeenCalledWith(arg1, arg2);
+        expect(mockFunc).toHaveBeenLastCalledWith(arg1, arg2);
+        expect(mockFunc).toMatchSnapshot();
+    })
+
+    test("mock common matchers jest test", () => {
+        const mockFunc = jest.fn().mockName("a mock test");
+        const arg1 = 42;
+        const arg2 = 43;
+        mockFunc(arg1, arg2);
+
+        expect(mockFunc.mock.calls.length).toBeGreaterThan(0);
+        expect(mockFunc.mock.calls).toContainEqual([arg1, arg2]);
+        expect(mockFunc.mock.calls[mockFunc.mock.calls.length - 1]).toEqual([arg1, arg2]);
+        expect(mockFunc.mock.calls[mockFunc.mock.calls.length - 1][0]).toBe(42);
+        expect(mockFunc.mock.calls).toEqual([arg1, arg2]);
+        expect(mockFunc.getMockName()).toBe('a mock name');
     })
 })
