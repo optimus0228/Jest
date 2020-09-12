@@ -68,16 +68,15 @@ describe("7. mock function jest test", () => {
 
     test("mock custom matchers jest test", () => {
         const mockFunc = jest.fn();
-
         const arg1 = "arg1";
         const arg2 = "arg2";
-
         mockFunc(arg1, arg2);
+
         expect(mockFunc).toBeCalled();
         expect(mockFunc).toBeCalledWith(arg1, arg2);
         expect(mockFunc).toHaveBeenCalledWith(arg1, arg2);
         expect(mockFunc).toHaveBeenLastCalledWith(arg1, arg2);
-        expect(mockFunc).toMatchSnapshot();
+        //expect(mockFunc).toMatchSnapshot();
     })
 
     test("mock common matchers jest test", () => {
@@ -90,7 +89,7 @@ describe("7. mock function jest test", () => {
         expect(mockFunc.mock.calls).toContainEqual([arg1, arg2]);
         expect(mockFunc.mock.calls[mockFunc.mock.calls.length - 1]).toEqual([arg1, arg2]);
         expect(mockFunc.mock.calls[mockFunc.mock.calls.length - 1][0]).toBe(42);
-        expect(mockFunc.mock.calls).toEqual([arg1, arg2]);
-        expect(mockFunc.getMockName()).toBe('a mock name');
+        expect(mockFunc.mock.calls).toEqual([[arg1, arg2]]);
+        expect(mockFunc.getMockName()).toBe('a mock test');
     })
 })
