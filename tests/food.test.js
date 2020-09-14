@@ -5,7 +5,7 @@ function initializeCityDatabase() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             cities.push("Vienna");
-            cities.push("San Juan");
+            cities.push("Sun Juan");
             resolve();
         }, 100);
     })
@@ -86,9 +86,9 @@ describe("10. matching cities to foods", () => {
         return clearFoodDatabase();
     })
 
-    test.only("Vienna <3 sausage", () => {
+    test("Vienna <3 sausage", () => {
         expect(foods.length).toBe(2);
         expect(isValidCityFoodPair("Vienna", "Wiener Schnitzel")).toBe(true);
-        expect(isValidCityFoodPair("San Juan", "Mofongo")).toBe(true);
+        expect(isValidCityFoodPair("Sun Juan", "Mofongo")).toBe(true);
     })
 })
