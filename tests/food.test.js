@@ -1,10 +1,11 @@
 let cities = [];
+let foods = [];
 
 function initializeCityDatabase() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            cities.push({name:"Vienna"});
-            cities.push({name:"Sun Juan"});
+            cities.push("Vienna");
+            cities.push("San Juan");
             resolve();
         }, 100);
     })
@@ -20,21 +21,44 @@ function clearCityDatabase() {
 }
 
 function isCityInDatabase(name) {
-    return cities.map(city => city.name).includes(name);
+    // return cities.map(city => city.names).includes(name);
+    return cities.includes(name);
 }
 
 function initializeFoodDatabase() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            cities[0].foods = ["Wiener Schnitzel"];
-            cities[1].foods = ["Mofongo"];
+            foods.push("Wiener Schnitzel");
+            foods.push("Mofongo");
             resolve();
         }, 100);
     })
 }
 
+function clearFoodDatabase() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            foods = [];
+            resolve();
+        }, 100);
+    })
+}
+
+function findNameIndex(name) {
+    let index = -1;
+    for (index = 0; index < cities.length; index++) {
+        if (cities[index].toString() == name.toString()) {
+            break;
+        }
+    }
+
+    return index;
+}
+
 function isValidCityFoodPair(name, food) {
-    return cities[cities => cities.indexOf(name)].foods == food;
+    let index = findNameIndex(name);
+
+    return foods[index] == food;
 }
 
 beforeEach(() => {
@@ -58,7 +82,12 @@ describe("10. matching cities to foods", () => {
         return initializeFoodDatabase();
     })
 
-    test("Vienna <3 sausage", () => {
+    afterEach(() => {
+        return clearFoodDatabase();
+    })
+
+    test.only("Vienna <3 sausage", () => {
+        expect(foods.length).toBe(2);
         expect(isValidCityFoodPair("Vienna", "Wiener Schnitzel")).toBe(true);
         expect(isValidCityFoodPair("San Juan", "Mofongo")).toBe(true);
     })
